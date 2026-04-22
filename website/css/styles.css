@@ -11752,13 +11752,143 @@ body {
   background-color: #fff !important;
   color: #0b2a5b !important;
   border-color: #0b2a5b !important;
+  font-family: "Comfortaa", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-decoration: none;
 }
 
 .hero-action-btn:hover,
 .hero-action-btn:focus-visible {
   background-color: #fff !important;
-  color: #000 !important;
-  border-color: #000 !important;
+  color: #1f2a44 !important;
+  -webkit-text-fill-color: #1f2a44 !important;
+  border-color: #1f2a44 !important;
   text-decoration: underline;
+}
+
+.hero-name {
+  font-family: "Times New Roman", Times, serif;
+  color: #1f2a44;
+}
+
+.hero-subhead {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.subheader-font {
+  font-family: "Comfortaa", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.index-page {
+  background-color: #1f2a44 !important;
+  color: #ffffff !important;
+}
+
+.index-page .navbar,
+.index-page footer,
+.index-page section.bg-light {
+  background-color: #1f2a44 !important;
+}
+
+.index-page,
+.index-page h1,
+.index-page h2,
+.index-page h3,
+.index-page h4,
+.index-page h5,
+.index-page h6,
+.index-page p,
+.index-page span,
+.index-page div,
+.index-page a,
+.index-page li,
+.index-page .text-muted,
+.index-page .text-primary,
+.index-page .text-gradient,
+.index-page .navbar-brand,
+.index-page .nav-link,
+.index-page .small {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.index-page .hero-name {
+  color: #ffffff !important;
+}
+
+.index-page .hero-action-btn {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.index-page .hero-action-btn:hover,
+.index-page .hero-action-btn:focus-visible {
+  background-color: #ffffff !important;
+  color: #1f2a44 !important;
+  -webkit-text-fill-color: #1f2a44 !important;
+  border-color: #ffffff !important;
+  text-decoration: none;
+}
+
+.adventures-page {
+  background-color: #fff8cc;
+}
+
+.adventure-gallery {
+  width: 300px;
+  max-width: 100%;
+  margin: 1.5rem;
+}
+
+.adventure-gallery .carousel-item img {
+  height: 400px;
+  object-fit: cover;
+}
+
+.adventure-page-title-wrap {
+  max-width: 920px;
+  margin: 0 auto 1rem;
+  background: #1f2a44;
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+}
+
+.adventure-page-title {
+  margin: 0;
+  text-align: center;
+  font-family: "Comfortaa", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.back-to-top-btn {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 1200;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid #1f2a44;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #1f2a44;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.back-to-top-btn.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top-btn:hover,
+.back-to-top-btn:focus-visible {
+  background: #1f2a44;
+  color: #ffffff;
 }

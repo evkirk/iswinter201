@@ -4,9 +4,343 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scratch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f4c5c;
+            --panel: #0b3f4c;
+            --text: #ffffff;
+            --button-bg: #ffffff;
+            --button-text: #0f4c5c;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem 1rem 3rem;
+            font-family: "Comfortaa", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 0 0 0.35rem;
+            font-size: clamp(2rem, 5vw, 3rem);
+        }
+
+        .subheader {
+            text-align: center;
+            margin: 0 0 1.25rem;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .button-row-side {
+            justify-content: flex-start;
+        }
+
+        .page-btn {
+            display: inline-block;
+            padding: 0.7rem 1rem;
+            border-radius: 999px;
+            text-decoration: none;
+            background: var(--button-bg);
+            color: var(--button-text);
+            font-weight: 700;
+        }
+
+        .page-btn:hover,
+        .page-btn:focus-visible {
+            background: transparent;
+            color: var(--text);
+            outline: 2px solid var(--text);
+        }
+
+        .adventure-btn {
+            display: inline-block;
+            margin: 0 0 1.5rem;
+            padding: 0.85rem 1.25rem;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(45deg, #ff7b00, #ff3d81);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .adventure-btn:hover,
+        .adventure-btn:focus-visible {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+            color: #ffffff;
+        }
+
+        .adventure-btn-wrap {
+            text-align: center;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 1rem;
+            align-items: stretch;
+            margin: 0 0 1.5rem;
+        }
+
+        .hero-image-wrap {
+            margin: 0;
+        }
+
+        .bucket-list-wrap {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 1rem 1.1rem;
+        }
+
+        .bucket-list-wrap h2 {
+            margin: 0 0 0.6rem;
+            font-size: 1.1rem;
+        }
+
+        .bucket-list {
+            margin: 0;
+            padding-left: 1.2rem;
+            line-height: 1.7;
+        }
+
+        .bucket-list li {
+            margin-bottom: 0.2rem;
+        }
+
+        .bucket-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .country-list {
+            margin: 1.2rem 0 0;
+            padding-left: 1.25rem;
+            line-height: 1.5;
+        }
+
+        .country-list > li {
+            margin-bottom: 0.55rem;
+        }
+
+        .country-list ul {
+            margin: 0.35rem 0 0;
+            padding-left: 1.15rem;
+        }
+
+        .hero-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            object-fit: cover;
+            border-radius: 14px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        .panel {
+            background: var(--panel);
+            border-radius: 14px;
+            padding: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.1rem;
+        }
+
+        .video-wrap {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+        }
+
+        .video-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        @media (max-width: 860px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .back-to-top-btn {
+            position: fixed;
+            right: 1.25rem;
+            bottom: 1.25rem;
+            z-index: 1200;
+            padding: 0.55rem 0.9rem;
+            border: 1px solid #0f4c5c;
+            border-radius: 999px;
+            background: #ffffff;
+            color: #0f4c5c;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+        }
+
+        .back-to-top-btn.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
-    <h1>Tableau</h1>
-<div class='tableauPlaceholder' id='viz1776193832440' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Th&#47;TheWorldsDependencyontheTravelIndustry&#47;TheWorldsDependencyontheTravelIndustry&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='TheWorldsDependencyontheTravelIndustry&#47;TheWorldsDependencyontheTravelIndustry' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Th&#47;TheWorldsDependencyontheTravelIndustry&#47;TheWorldsDependencyontheTravelIndustry&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1776193832440');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='1350px';vizElement.style.height='1027px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+    <div class="container">
+        <h1>Travel Time</h1>
+        <p class="subheader">let's find your next adventure...</p>
+
+        <div class="button-row button-row-side">
+            <a class="page-btn" href="index.html">Go back to main page</a>
+        </div>
+        <div class="adventure-btn-wrap">
+            <a class="adventure-btn" href="travel.html">click here to find your next adventure</a>
+        </div>
+        <div class="hero-content">
+            <div class="hero-image-wrap">
+                <img
+                    class="hero-image"
+                    src="https://images.contentstack.io/v3/assets/blt564169884400d4ee/blt923be901fef7e9d3/69a1be7cb9820d3c1cf26d57/Boeing_aircraft_livery_turkish_Iceland_Lakagigar.jpg"
+                    alt="Airplane flying over Icelandic landscape"
+                />
+            </div>
+            <div class="bucket-list-wrap">
+                <h2>Bucket List</h2>
+                <ul class="bucket-list">
+                    <li>ziplining</li>
+                    <li>helicopter flight</li>
+                    <li>skydiving</li>
+                    <li>gondala ride</li>
+                    <li>hike through the alps</li>
+                    <li>swim in the ocean</li>
+                    <li>car race</li>
+                </ul>
+                <h2>Country Ideas</h2>
+                <ol class="country-list">
+                    <li>
+                        Italy
+                        <ul>
+                            <li>go to the coast</li>
+                            <li>try italian pizza</li>
+                            <li>try authentic pasta</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Austria
+                        <ul>
+                            <li>hike through the alps</li>
+                            <li>go to vienna</li>
+                            <li>see the prague castle</li>
+                        </ul>
+                    </li>
+                    <li>
+                        France
+                        <ul>
+                            <li>paris</li>
+                            <li>southern france</li>
+                            <li>monet gardens</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <section class="panel">
+            <h2>Germany Sights Dashboard</h2>
+            <div class='tableauPlaceholder' id='viz1776194810357' style='position: relative'>
+                <noscript>
+                    <a href='#'>
+                        <img alt='Dashboard 1' src='https://public.tableau.com/static/images/Ge/GermanySights_16302251852580/Dashboard1/1_rss.png' style='border: none' />
+                    </a>
+                </noscript>
+                <object class='tableauViz' style='display:none;'>
+                    <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                    <param name='embed_code_version' value='3' />
+                    <param name='site_root' value='' />
+                    <param name='name' value='GermanySights_16302251852580/Dashboard1' />
+                    <param name='tabs' value='no' />
+                    <param name='toolbar' value='yes' />
+                    <param name='static_image' value='https://public.tableau.com/static/images/Ge/GermanySights_16302251852580/Dashboard1/1.png' />
+                    <param name='animate_transition' value='yes' />
+                    <param name='display_static_image' value='yes' />
+                    <param name='display_spinner' value='yes' />
+                    <param name='display_overlay' value='yes' />
+                    <param name='display_count' value='yes' />
+                    <param name='language' value='en-US' />
+                </object>
+            </div>
+        </section>
+    </div>
+
+    <script type='text/javascript'>
+        var divElement = document.getElementById('viz1776194810357');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+        if (divElement.offsetWidth > 800) {
+            vizElement.style.width = '100%';
+            vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px';
+        } else if (divElement.offsetWidth > 500) {
+            vizElement.style.width = '100%';
+            vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px';
+        } else {
+            vizElement.style.width = '100%';
+            vizElement.style.height = '827px';
+        }
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+
+        var backToTopBtn = document.createElement('button');
+        backToTopBtn.type = 'button';
+        backToTopBtn.className = 'back-to-top-btn';
+        backToTopBtn.setAttribute('aria-label', 'Back to top');
+        backToTopBtn.textContent = 'Back to top';
+        backToTopBtn.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        document.body.appendChild(backToTopBtn);
+
+        function toggleBackToTopVisibility() {
+            if (window.scrollY > 220) {
+                backToTopBtn.classList.add('is-visible');
+            } else {
+                backToTopBtn.classList.remove('is-visible');
+            }
+        }
+
+        window.addEventListener('scroll', toggleBackToTopVisibility, { passive: true });
+        toggleBackToTopVisibility();
+    </script>
 </body>
 </html>

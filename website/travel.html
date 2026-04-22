@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Next Adventure Generator</title>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+body {
+  font-family: Arial;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top, #3b0066, #12001f);
+  overflow: hidden;
+}
+
+/* glow background */
+body::before {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: rgba(157, 78, 221, 0.25);
+  filter: blur(120px);
+  top: -100px;
+  left: -100px;
+}
+
+/* CENTER CARD */
+.card {
+  text-align: center;
+  padding: 50px 40px;
+  border-radius: 20px;
+  background: rgba(20, 0, 40, 0.65);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  z-index: 2;
+  width: 90%;
+  max-width: 500px;
+}
+
+/* TITLE */
+h1 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+  color: white;
+}
+
+/* SUBTEXT */
+p {
+  opacity: 0.8;
+  margin-bottom: 25px;
+  color: white;
+}
+
+/* BUTTON */
+button {
+  padding: 18px 40px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #ff4d6d, #9d4edd);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.main-page-btn {
+  display: inline-block;
+  margin-bottom: 18px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #12001f;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.main-page-btn:hover {
+  opacity: 0.9;
+}
+
+.back-to-top-btn {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 10000;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid #12001f;
+  background: #ffffff;
+  color: #12001f;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* STATUS */
+#statusText {
+  margin-top: 20px;
+  font-size: 2rem;
+  color: white;
+  height: 40px;
+}
+
+/* RESULT SCREEN */
+#resultScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: rgba(0,0,0,0.95);
+  z-index: 9999; /* 🔥 this is the key fix */
+}
+
+/* IMAGE */
+#resultScreen img {
+  width: 90%;
+  max-width: 900px;
+  border-radius: 20px;
+}
+
+/* TEXT ON IMAGE */
+#destinationText {
+  position: absolute;
+  bottom: 120px;
+  font-size: 2.3rem;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  text-shadow: 0 5px 20px black;
+}
+
+/* TRY AGAIN */
+#againBtn {
+  margin-top: 30px;
+  padding: 16px 30px;
+  font-size: 1.2rem;
+  background: #9d4edd;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <a class="main-page-btn" href="index.html">Go back to main page</a>
+  <h1>Next Adventure Generator</h1>
+  <p>Press start and let fate choose your next destination.</p>
+
+  <button onclick="generate()">Start Adventure</button>
+
+  <div id="statusText"></div>
+</div>
+
+<!-- RESULT -->
+<div id="resultScreen">
+  <img id="image">
+  <div id="destinationText"></div>
+  <button id="againBtn" onclick="closeResult()">Try Again</button>
+</div>
+
+<script>
+const places = [
+  { name: "Santorini 🇬🇷", img: "https://cdn.sanity.io/images/nxpteyfv/goguides/9ca4581e7f31535984243dfa9c08c12c8a30ffeb-1600x1066.jpg" },
+  { name: "Amsterdam 🇳🇱", img: "https://media.cntraveler.com/photos/6983a72c4f1cb3bf9132eece/16:9/w_2560%2Cc_limit/Canal-Bicycles-Amsterdam-GettyImages-2186230864.jpg" },
+  { name: "Reykjavik 🇮🇸", img: "https://cdn.britannica.com/71/73371-050-9DFAEC1E/Reykjavik-Iceland.jpg" },
+  { name: "Prague 🇨🇿", img: "https://www.agoda.com/wp-content/uploads/2024/05/Featured-image-Prague-Castle-with-St.-Vitus-Cathedral-Czech-Republic-1244x700.jpg" },
+  { name: "Lake Como 🇮🇹", img: "https://sfycdn.speedsize.com/5a520e7d-65b5-430f-bbbe-539adfe7537a/https://anatomie.com/cdn/shop/articles/veniceandlakecomo-hero-italy-lake-como-menaggio-41965520.jpg?v=1593546632" },
+  { name: "Vienna 🇦🇹", img: "https://thetourguy.com/wp-content/uploads/2023/01/TTTD-Vienna-feature-1440-675.jpg" },
+  { name: "Interlaken 🇨🇭", img: "https://www.cityam.com/wp-content/uploads/2025/08/interlaken1.jpg" },
+  { name: "Lisbon 🇵🇹", img: "https://images.goway.com/production/hero/iStock-1137863101.jpg" },
+  { name: "Nice 🇫🇷", img: "https://www.franceguide.info/wp-content/uploads/sites/18/nice_ss.jpg" }
+];
+
+function generate() {
+  const status = document.getElementById("statusText");
+
+  let count = 3;
+  status.innerHTML = count;
+
+  const countdown = setInterval(() => {
+    count--;
+
+    if (count > 0) {
+      status.innerHTML = count;
+    } else {
+      clearInterval(countdown);
+      status.innerHTML = "Choosing destination...";
+
+      setTimeout(reveal, 900);
+    }
+  }, 700);
+}
+
+function reveal() {
+  const index = Math.floor(Math.random() * places.length);
+  const selected = places[index];
+
+  document.getElementById("image").src = selected.img;
+  document.getElementById("destinationText").innerHTML =
+    "✈️ You're going to " + selected.name;
+
+  document.getElementById("resultScreen").style.display = "flex";
+
+  confetti({
+    particleCount: 300,
+    spread: 120
+  });
+}
+
+function closeResult() {
+  document.getElementById("resultScreen").style.display = "none";
+}
+
+const backToTopBtn = document.createElement("button");
+backToTopBtn.type = "button";
+backToTopBtn.className = "back-to-top-btn";
+backToTopBtn.setAttribute("aria-label", "Back to top");
+backToTopBtn.textContent = "Back to top";
+backToTopBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+document.body.appendChild(backToTopBtn);
+</script>
+
+</body>
+</html>
